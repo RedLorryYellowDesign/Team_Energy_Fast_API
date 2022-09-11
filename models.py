@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 class Gender (str, Enum):
     male = "male"
-    femail = "female"
+    female = "female"
 
 class Role(str, Enum):
     admin = "admin"
@@ -15,7 +15,7 @@ class Role(str, Enum):
     student = "student"
 
 class User(BaseModel):
-    id: Option[UUID] = uuid4()
+    # id: Option[UUID] = uuid4()
     first_name: str
     last_name: str
     middle_name: Optional[str]

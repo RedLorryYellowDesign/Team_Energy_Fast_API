@@ -23,7 +23,7 @@ db: List[User] = [
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World magic"}
 
 @app.get("/api/v1/users")
 async def fetch_users():
