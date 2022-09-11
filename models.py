@@ -1,3 +1,4 @@
+# ---| ALL IMPORTS |---
 from enum import Enum
 from optparse import Option
 from typing import List, Optional
@@ -15,9 +16,15 @@ class Role(str, Enum):
     student = "student"
 
 class User(BaseModel):
-    # id: Option[UUID] = uuid4()
+    id: Optional[UUID] = uuid4()
     first_name: str
     last_name: str
     middle_name: Optional[str]
     gender: Gender
     roles: List[Role]
+
+class User_Update_Requests(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    middle_name: Optional[str]
+    roles: Optional[List[Role]]
