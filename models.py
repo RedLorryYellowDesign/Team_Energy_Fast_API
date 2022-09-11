@@ -1,8 +1,9 @@
-from typing import Optional, List
+from enum import Enum
 from optparse import Option
+from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import BaseModel
-from enum import Enum
+
 
 class Gender (str, Enum):
     male = "male"
