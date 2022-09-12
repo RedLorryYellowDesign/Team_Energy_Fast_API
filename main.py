@@ -54,15 +54,16 @@ async def delete_user(user_id: UUID):
 async def update_user(user_update: User_Update_Requests, user_id: UUID):
     for user in db:
         if user.id == user_id:
-            user_update.first_name is not None:
+            if user_update.first_name is not None:
                 user.first_name = user_update.first_name
-            user_update.last_name is not None:
+            if user_update.last_name is not None:
                 user.last_name = user_update.last_name
-            user_update.middle_name is not None:
+            if user_update.middle_name is not None:
                 user.middle_name = user_update.middle_name
-            user_update.roles is not None:
+            if user_update.roles is not None:
                 user.roles = user_update.roles
             return
     raise HTTPException(
         status_code=404,
-        details=f"User with id: {user_id} not found""
+        details=f"User with id: {user_id} not found"
+        )
