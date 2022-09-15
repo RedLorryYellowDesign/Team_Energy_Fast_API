@@ -3,27 +3,45 @@
 from typing import List
 from uuid import UUID, uuid4
 from fastapi import FastAPI, HTTPException
-from models import User, Gender, Role, User_Update_Requests
+from models import Calling_Forcast_Model
 
 app = FastAPI()
 
-# ---| DATABASE OF USERS |---
-db: List[User] = [
-    User(
-        id=UUID("249eee0f-f6ef-414b-b6c9-5caef388f533"),
-        first_name="John",
-        last_name="Doe",
-        gender = Gender.female,
-        roles = [Role.student]
-    ),
-    User(
-        id=UUID("c7aabefe-0af2-490a-9fc8-1fb8d9ac96bb"),
-        first_name="Alex",
-        last_name="Smith",
-        gender = Gender.male,
-        roles = [Role.admin, Role.user]
-    )
-]
+
+# ---| API END POINT |---
+# These are all the API Keys that can be called.
+@app.get("/")
+def root():
+    return {"message": "Hello World. This is the Team Energy API. Please use the API keys below to call the API."}
+
+# ---| Calls to see of API is working |---
+@app.get("/all_good")
+def check():
+    return {"API Up and Running"}
+
+# take an input from the user
+@app.post("/api/v1/model_1")
+async def model_1(Calling_Forcast_Model: Calling_Forcast_Model):
+    db.append()
+
+
+# # ---| DATABASE OF USERS |---
+# db: List[User] = [
+#     User(
+#         id=UUID("249eee0f-f6ef-414b-b6c9-5caef388f533"),
+#         first_name="John",
+#         last_name="Doe",
+#         gender = Gender.female,
+#         roles = [Role.student]
+#     ),
+#     User(
+#         id=UUID("c7aabefe-0af2-490a-9fc8-1fb8d9ac96bb"),
+#         first_name="Alex",
+#         last_name="Smith",
+#         gender = Gender.male,
+#         roles = [Role.admin, Role.user]
+#     )
+# ]
 
 # ---| API END POINT |---
 # These are all the API Keys that can be called.
