@@ -9,7 +9,6 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout, GRU, Bidirectional
 from tensorflow.keras.optimizers import SGD
 from app.Team_Energy.data import create_data
 from app.Team_Energy.prepare import prepare_sequences
-
 from sklearn.metrics import mean_absolute_percentage_error
 import joblib
 

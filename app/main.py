@@ -2,10 +2,10 @@
 # ---| ALL IMPORTS |---
 from typing import List
 from fastapi import FastAPI, HTTPException
-from Team_Energy.RNN_predict import forecast_model, evaluate, plot_graphs
-from Team_Energy.predict import get_holidays, get_weather, create_data
-from Team_Energy.data import create_data
-from Team_Energy.prepare import prepare_sequences
+from app.Team_Energy.RNN_predict import forecast_model, evaluate, plot_graphs
+from app.Team_Energy.predict import get_holidays, get_weather, create_data
+from app.Team_Energy.data import create_data
+from app.Team_Energy.prepare import prepare_sequences
 import joblib
 import json
 import numpy as np
