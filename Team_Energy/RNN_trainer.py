@@ -7,8 +7,8 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout, GRU, Bidirectional
 from tensorflow.keras.optimizers import SGD
-from Team_Energy.data import create_data
-from Team_Energy.prepare import prepare_sequences
+from app.Team_Energy.data import create_data
+from app.Team_Energy.prepare import prepare_sequences
 
 from sklearn.metrics import mean_absolute_percentage_error
 import joblib

@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_absolute_percentage_error
 import joblib
-from Team_Energy.data import create_data
-from Team_Energy.prepare import prepare_sequences
+from data import create_data
+from prepare import prepare_sequences
 import seaborn as sns
 import matplotlib.pyplot as plt
 

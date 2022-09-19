@@ -1,8 +1,9 @@
+fastapi
+uvicorn
+
 Pillow==9.2.0
 plotly==5.10.0
 requests==2.27.1
-streamlit==1.12.2
-streamlit_lottie==0.0.3
 requests ==2.27.1
 
 # packaging

@@ -1,7 +1,6 @@
 # Fast API for the main app
 # ---| ALL IMPORTS |---
 from typing import List
-from uuid import UUID, uuid4
 from fastapi import FastAPI, HTTPException
 from Team_Energy.RNN_predict import forecast_model, evaluate, plot_graphs
 from Team_Energy.predict import get_holidays, get_weather, create_data
