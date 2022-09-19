@@ -3,10 +3,16 @@
 from typing import List
 from uuid import UUID, uuid4
 from fastapi import FastAPI, HTTPException
-from models import Calling_Forcast_Model
+from Team_Energy.RNN_predict import forecast_model, evaluate, plot_graphs
+from Team_Energy.predict import get_holidays, get_weather, create_data
+from Team_Energy.data import create_data
+from Team_Energy.prepare import prepare_sequences
+import joblib
+import json
+import numpy as np
+import pandas as pd
 
 app = FastAPI()
-
 
 # ---| API END POINT |---
 # These are all the API Keys that can be called.
@@ -19,69 +25,34 @@ def root():
 def check():
     return {"API Up and Running"}
 
-# take an input from the user
-@app.post("/api/v1/model_1")
-async def model_1(Calling_Forcast_Model: Calling_Forcast_Model):
-    db.append()
+@app.get("/model/predict")
+async def predict_Model(name, tariff):
+    # Joblib import model
+    filename = f'Team_Energy/Prophet_models/model_{name}_{tariff}.joblib'
+    m = joblib.load(filename)
+    train_df, test_df,val_df = create_data(name, tariff)
+    train_df, test_df = create_data(name, tariff)
+    train_wd, test_wd = get_weather(train_df, test_df)
+    # Calculate forecast and MAPE
+    forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
+    mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
 
+    forecast_list = forecast.tolist()
+    return {'prediction': [forecast_list], 'accuracy': mape }
 
-# # ---| DATABASE OF USERS |---
-# db: List[User] = [
-#     User(
-#         id=UUID("249eee0f-f6ef-414b-b6c9-5caef388f533"),
-#         first_name="John",
-#         last_name="Doe",
-#         gender = Gender.female,
-#         roles = [Role.student]
-#     ),
-#     User(
-#         id=UUID("c7aabefe-0af2-490a-9fc8-1fb8d9ac96bb"),
-#         first_name="Alex",
-#         last_name="Smith",
-#         gender = Gender.male,
-#         roles = [Role.admin, Role.user]
-#     )
-# ]
+@app.get("/model/RNN_predict")
+async def RNN_Model(name, tariff):
+    # Joblib import model
+    filename = f'Team_Energy/RNN/RNNmodel_{name}_{tariff}.joblib'
+    m = joblib.load(filename)
+    train_df, test_df,val_df = create_data(name, tariff)
+    X_train, y_train, X_test, sc, test_set = prepare_sequences(train_df, test_df,val_df)
+    # Calculate forecast and MAPE
+    predicted_consumption = forecast_model(m,X_test,sc)
+    mape = evaluate(test_set,predicted_consumption)
 
-# ---| API END POINT |---
-# These are all the API Keys that can be called.
-@app.get("/")
-def root():
-    return {"message": "Hello World magic"}
+    # convert numpy array to list
+    predicted_consumption_list = predicted_consumption.tolist()
 
-@app.get("/api/v1/users")
-async def fetch_users():
-    return db;
-
-@app.post("/api/v1/users")
-async def create_user(user: User):
-    db.append(user)
-    return {"id": user.id}
-
-@app.delete("/api/v1/users/{user_id}")
-async def delete_user(user_id: UUID):
-    for user in db:
-        if user.id == user_id:
-            db.remove(user)
-            return
-    raise HTTPException(
-        status_code=404,
-        detail=f"User with id {user_id} not found")
-
-@app.put("/api/v1/users/{user_id}")
-async def update_user(user_update: User_Update_Requests, user_id: UUID):
-    for user in db:
-        if user.id == user_id:
-            if user_update.first_name is not None:
-                user.first_name = user_update.first_name
-            if user_update.last_name is not None:
-                user.last_name = user_update.last_name
-            if user_update.middle_name is not None:
-                user.middle_name = user_update.middle_name
-            if user_update.roles is not None:
-                user.roles = user_update.roles
-            return
-    raise HTTPException(
-        status_code=404,
-        details=f"User with id: {user_id} not found"
-        )
+    # return {"Predict":predicted_consumption_JSON,"acuracy":mape}
+    return {'prediction': [predicted_consumption_list], 'accuracy': mape }
