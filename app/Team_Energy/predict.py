@@ -5,7 +5,6 @@ from sklearn.metrics import mean_absolute_percentage_error
 import joblib
 from app.Team_Energy.data import split_data, create_data, get_holidays, get_weather
 import seaborn as sns
-import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
 # print('input name')

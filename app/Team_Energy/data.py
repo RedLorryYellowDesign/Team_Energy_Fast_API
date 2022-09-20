@@ -1,8 +1,5 @@
 import pandas as pd
 import numpy as np
-import joblib
-from sklearn.preprocessing import MinMaxScaler
-
 
 # Data - Paritition
 def split_data(filename, tariff):

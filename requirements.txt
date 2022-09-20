@@ -20,6 +20,8 @@ pandas
 seaborn
 matplotlib
 plotly
+tensorflow
+keras
 
 # tests/linter
 black
