@@ -28,22 +28,20 @@ def check():
 def docs_call():
     return {"message":"Hi, Docs to be added"}
 
-@app.get("/model/predict")
-async def predict_Model(name, tariff, add_weather=True):
-    # Joblib import model
-    filename = f'app/Team_Energy/Prophet_models/model_{name}_{tariff}.joblib'
-    m = joblib.load(filename)
-    train_df, test_df = create_data(name = name, tariff = tariff)
-    train_wd, test_wd = get_weather(train_df, test_df)
-    # Calculate forecast and MAPE
-    forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
-    mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
-    predicted_consumption_list = forecast.tolist()
-    return {'prediction': [predicted_consumption_list],"test_df":[test_df],"test_wd":[test_wd] ,'accuracy': mape }
-
-# # Evaluate model
-# def evaluate(actual,forecast):
-#     return np.round(mean_absolute_percentage_error(actual,forecast),4)
+# @app.get("/model/predict")
+# async def predict_Model(name, tariff, add_weather=True):
+#     # Joblib import model
+#     filename = f'app/Team_Energy/Prophet_models/model_{name}_{tariff}.joblib'
+#     m = joblib.load(filename)
+#     train_df, test_df = create_data(name = name, tariff = tariff)
+#     train_wd, test_wd = get_weather(train_df, test_df)
+#     # Calculate forecast and MAPE
+#     forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
+#     mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+#     predicted_consumption_list = forecast.tolist()
+#     # Evaluate model
+#     # np.round(mape(test_set,predicted_consumption),4)
+#     return {'prediction': [predicted_consumption_list],"test_df":[test_df],"test_wd":[test_wd] ,'accuracy': mape }
 
 @app.get("/model/RNN_predict")
 async def RNN_Model(name, tariff):
@@ -57,9 +55,7 @@ async def RNN_Model(name, tariff):
     mape = evaluate(test_set,predicted_consumption)
     test_set = test_set.tolist()
     predicted_consumption_list = predicted_consumption.tolist()
-
     # Evaluate model
     mape = evaluate(test_set,predicted_consumption)
     np.round(mape(test_set,predicted_consumption),4)
-
     return {'prediction': [predicted_consumption_list], "test" :test_set,'accuracy': mape }
