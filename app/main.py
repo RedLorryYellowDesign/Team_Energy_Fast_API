@@ -53,9 +53,21 @@ async def RNN_Model(name, tariff):
     # Calculate forecast and MAPE
     predicted_consumption = forecast_model(m,X_test,sc)
     mape = evaluate(test_set,predicted_consumption)
+<<<<<<< Updated upstream
     test_set = test_set.tolist()
     predicted_consumption_list = predicted_consumption.tolist()
     # Evaluate model
     mape = evaluate(test_set,predicted_consumption)
     np.round(mape(test_set,predicted_consumption),4)
     return {'prediction': [predicted_consumption_list], "test" :test_set,'accuracy': mape }
+=======
+    stest_df_set = test_df['2014':]
+    # ndarray to json file
+    predicted_consumption
+
+
+    # convert numpy array to list
+    predicted_consumption_list = predicted_consumption.tolist()
+    # return {"Predict":predicted_consumption_JSON,"acuracy":mape}
+    return {'prediction': [predicted_consumption_list], "test_df":[stest_df_set], 'accuracy': mape }
+>>>>>>> Stashed changes
