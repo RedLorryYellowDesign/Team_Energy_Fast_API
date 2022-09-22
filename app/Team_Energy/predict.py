@@ -31,34 +31,21 @@ def forecast_model(m,train_wd,test_wd,add_weather=True):
     forecast=fcst.loc[fcst['ds']>='2014-02-01 00:00:00',['ds','yhat']]
     return forecast
 
-# Evaluate model
-def evaluate(actual,forecast):
-    return np.round(mean_absolute_percentage_error(actual,forecast),4)
+# if __name__ == "__main__":
+#     # define df's using data.py
 
-# Plot
-def plot_graphs(test_df, forecast):
-    figure(figsize=(15,6))
-    sns.lineplot(x=forecast['ds'],y=forecast['yhat'],label='Forecast');
-    sns.lineplot(x=test_df['DateTime'],y=test_df['KWH/hh'],label='Actual');
-    figure(figsize=(15,6))
-    sns.lineplot(x=test_wd['DateTime'],y=test_wd['temperature'],label='Weather');
+#     train_df, test_df = create_data(name = name, tariff = tariff)
+#     train_wd, test_wd = get_weather(train_df, test_df)
+#     print('dataframes loaded')
+#     # Calculate forecast and MAPE
+#     forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
+#     print('forecast made')
+#     mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+#     # Print MAPE
+#     print('mape is:')
+#     print(mape)
 
-
-if __name__ == "__main__":
-    # define df's using data.py
-
-    train_df, test_df = create_data(name = name, tariff = tariff)
-    train_wd, test_wd = get_weather(train_df, test_df)
-    print('dataframes loaded')
-    # Calculate forecast and MAPE
-    forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
-    print('forecast made')
-    mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
-    # Print MAPE
-    print('mape is:')
-    print(mape)
-
-    # Plot the graphs
-    print('now plotting')
-    plot_graphs(test_df = test_df, forecast= forecast)
-    print('operation complete')
+#     # Plot the graphs
+#     print('now plotting')
+#     plot_graphs(test_df = test_df, forecast= forecast)
+#     print('operation complete')
