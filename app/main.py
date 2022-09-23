@@ -59,11 +59,42 @@ async def RNN_Model(name, tariff):
     mape = evaluate(test_set,predicted_consumption)
     np.round(mape(test_set,predicted_consumption),4)
     return {'prediction': [predicted_consumption_list], "test" :[test_set],'accuracy': mape }
-    # Review Befor Delete
-    # stest_df_set = test_df['2014':]
-    # # ndarray to json file
-    # predicted_consumption
-    # # convert numpy array to list
-    # predicted_consumption_list = predicted_consumption.tolist()
-    # # return {"Predict":predicted_consumption_JSON,"acuracy":mape}
-    # return {'prediction': [predicted_consumption_list], "test_df":[stest_df_set], 'accuracy': mape }
+
+
+@app.get("/model/RNN_predict_test")
+async def test_RNN(name, tariff):
+    # joblib import model
+    filename = f'RNNmodel_{name}_{tariff}.joblib'
+    m = joblib.load(filename)
+    train_df, test_df,val_df = create_data(name, tariff)
+    X_train, y_train, X_test, sc, test_set = prepare_sequences(train_df, test_df,val_df)
+    # Calculate forecast and MAPE
+    predicted_consumption = forecast_model(m,X_test,sc)
+    mape = evaluate(test_set,predicted_consumption)
+    acuracy_round = np.round(mape(test_set,predicted_consumption),4)
+    # code from RNN_Predict above
+    # ---
+    # converting to list
+    test_set = test_set.tolist()
+    predicted_consumption_list = predicted_consumption.tolist()
+    # producting API json return
+    return {'prediction': [predicted_consumption_list], "test" :[test_set],'accuracy': mape, "acuracy_round+" : acuracy_round}
+
+@app.get("/model/predict_test")
+async def test_predict(name, tariff):
+    # Joblib import model
+    filename = f'model_{name}_{tariff}.joblib'
+    m = joblib.load(filename)
+
+    train_df, test_df = create_data(name = name, tariff = tariff)
+    train_wd, test_wd = get_weather(train_df, test_df)
+    # Calculate forecast and MAPE
+    forecast = forecast_model(m=m, train_wd = train_wd, test_wd = test_wd, add_weather = True)
+    mape = evaluate(test_df['KWH/hh'], forecast['yhat'])
+    # code from Predict above
+    # ---
+    # converting to list
+    test_set = test_set.tolist()
+    predicted_consumption_list = predicted_consumption.tolist()
+    # producting API json return
+    return {'prediction': [predicted_consumption_list], "test" :[test_set],'accuracy': mape, "acuracy_round+" : acuracy_round}
