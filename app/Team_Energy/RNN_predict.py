@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_absolute_percentage_error
 import joblib
-from app.Team_Energy.data import create_data,
+from app.Team_Energy.data import create_data, get_weather
 from app.Team_Energy.prepare import prepare_sequences
 import matplotlib.pyplot as plt
 
@@ -13,11 +13,10 @@ import matplotlib.pyplot as plt
 # print('input tariff: Std or ToU')
 # tariff = input()
 
-# Joblib import model
+# # joblib import model
 # filename = f'RNNmodel_{name}_{tariff}.joblib'
 # m = joblib.load(filename)
 # print('model loaded succcessfully')
-
 
 # Predict
 def forecast_model(m,X_test,sc):
