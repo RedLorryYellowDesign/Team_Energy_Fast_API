@@ -95,6 +95,7 @@ async def test_predict(name, tariff):
     # ---
     # converting to list
     test_set = test_set.tolist()
-    predicted_consumption_list = predicted_consumption.tolist()
+    predicted_consumption_list = forecast.tolist()
+    acuracy_round = np.round(mape(test_set,forecast),4)
     # producting API json return
     return {'prediction': [predicted_consumption_list], "test" :[test_set],'accuracy': mape, "acuracy_round+" : acuracy_round}
