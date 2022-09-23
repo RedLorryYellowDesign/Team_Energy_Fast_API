@@ -64,7 +64,7 @@ async def RNN_Model(name, tariff):
 @app.get("/model/RNN_predict_test")
 async def test_RNN(name, tariff):
     # joblib import model
-    filename = f'RNNmodel_{name}_{tariff}.joblib'
+    filename = f'app/Team_Energy/RNN/RNNmodel_{name}_{tariff}.joblib'
     m = joblib.load(filename)
     train_df, test_df,val_df = create_data(name, tariff)
     X_train, y_train, X_test, sc, test_set = prepare_sequences(train_df, test_df,val_df)
@@ -83,7 +83,7 @@ async def test_RNN(name, tariff):
 @app.get("/model/predict_test")
 async def test_predict(name, tariff):
     # Joblib import model
-    filename = f'model_{name}_{tariff}.joblib'
+    filename = f'app/Team_Energy/Prophet_models/model_{name}_{tariff}.joblib'
     m = joblib.load(filename)
 
     train_df, test_df = create_data(name = name, tariff = tariff)
